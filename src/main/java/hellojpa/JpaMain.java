@@ -3,10 +3,7 @@ package hellojpa;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain {
@@ -21,21 +18,30 @@ public class JpaMain {
         try {
 
 
-            Member member1 = new Member();
-            member1.setUsername("A");
+            Team team = new Team();
+            team.setName("TeamA");
+            //team.getMembers().add(member);
+            em.persist(team);
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            team.addMember(member);
 
-            System.out.println("========");
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member2.getId());
-            System.out.println("member3 = " + member3.getId());
-            System.out.println("========");
-           // em.persist(member);
+            team.getMembers().add(member);
+
+            em.flush(); // flush
+            em.clear(); // clear
+
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
+
+            System.out.println("==================");
+            System.out.println("members + " + findTeam);
+
+            System.out.println("=================");
+
             tx.commit();
         }catch (Exception e){
             tx.rollback();
