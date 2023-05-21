@@ -4,6 +4,7 @@ package hellojpa;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -18,15 +19,12 @@ public class JpaMain {
         try {
 
             Member member = new Member();
-            member.setUsername("member1");
-
+            member.setUsername("user1");
+            member.setCreatedBy("kim");
+            member.setCreateDate(LocalDateTime.now());
             em.persist(member);
-
-            Team team = new Team();
-            team.setName("teamA");
-            team.getMembers().add(member);
-
-            em.persist(team);
+            em.flush();
+            em.clear();
 
             tx.commit();
         }catch (Exception e){
