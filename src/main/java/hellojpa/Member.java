@@ -19,7 +19,7 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false) // 읽기전용으로 바꿈 - insert를 업데이트 하지 않음.
     private Team team;
 
@@ -49,4 +49,27 @@ public class Member extends BaseEntity {
         this.username = username;
     }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
+
+    public List<MemberProduct> getMemberProducts() {
+        return MemberProducts;
+    }
+
+    public void setMemberProducts(List<MemberProduct> memberProducts) {
+        MemberProducts = memberProducts;
+    }
 }

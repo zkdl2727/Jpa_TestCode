@@ -2,6 +2,7 @@ package hellojpa;
 
 
 import net.bytebuddy.agent.builder.AgentBuilder;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,14 +18,22 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Parent parent = new Parent();
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("kim");
-            member.setCreateDate(LocalDateTime.now());
-            em.persist(member);
-            em.flush();
-            em.clear();
+
+
+            Child c1 = new Child();
+            Child c2 = new Child();
+            
+          parent.addChild(c1);
+          parent.addChild(c2);
+
+          em.persist(parent);
+
+          em.flush();
+          em.clear();
+
+          Parent findParent = em.find(Parent.class,parent.getId());
 
             tx.commit();
         }catch (Exception e){
@@ -36,4 +45,5 @@ public class JpaMain {
         emf.close();
 
     }
+
 }
