@@ -18,13 +18,14 @@ public class JpaMain {
         tx.begin();
 
         try {
+
             Parent parent = new Parent();
 
-
+            
 
             Child c1 = new Child();
             Child c2 = new Child();
-            
+
           parent.addChild(c1);
           parent.addChild(c2);
 
